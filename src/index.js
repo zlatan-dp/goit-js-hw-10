@@ -9,6 +9,11 @@ const searchInput = document.querySelector('#search-box');
 const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
 
+Notify.init({
+  position: 'center-top',
+  width: '380px',
+});
+
 searchInput.addEventListener(
   'input',
   debounce(searchCountries, DEBOUNCE_DELAY)
@@ -39,7 +44,7 @@ function renderCountries(countries) {
   const markup = countries
     .map(country => {
       return `<li class = "country-item">
-  <img src="${country.flags.svg}" alt="flag" />
+  <img src="${country.flags.svg}" alt="flag" width = "40"/>
   <p>${country.name.official}</p>
 </li>`;
     })
@@ -51,7 +56,7 @@ function renderCountry(country) {
   countryList.innerHTML = '';
   const langs = Object.values(country[0].languages).join(', ');
   countryInfo.innerHTML = `<div class="title-country">
-      <img src="${country[0].flags.svg}" alt="flag" />
+      <img src="${country[0].flags.svg}" alt="flag" width = "40"/>
       <h2>${country[0].name.official}</h2>
     </div>
     <ul class="country-info">

@@ -24,7 +24,7 @@ body {
 
 img {
   display: block;
-  width: 6%;
+  /* width: 100%; */
 
   margin-right: 5px;
 }

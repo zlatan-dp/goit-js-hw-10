@@ -1,6 +1,7 @@
 import './css/styles.css';
 import debounce from 'lodash.debounce';
 import { fetchCountries } from './fetchCountries';
+import { Notify } from 'notiflix';
 
 const DEBOUNCE_DELAY = 300;
 
@@ -15,11 +16,26 @@ searchInput.addEventListener(
 
 function searchCountries(evt) {
   const country = evt.target.value.trim();
-  if (country !== '')
-    fetchCountries(country).then(country => renderCountry(country));
+  if (country !== '') {
+    fetchCountries(country).then(renderAll).catch(notFound);
+  } else {
+    clearData();
+  }
+}
+
+function renderAll(country) {
+  if (country.length > 10) {
+    Notify.info('Too many matches found. Please enter a more specific name.');
+    clearData();
+  } else if (country.length > 1) {
+    renderCountries(country);
+  } else if (country.length === 1) {
+    renderCountry(country);
+  }
 }
 
 function renderCountries(countries) {
+  countryInfo.innerHTML = '';
   const markup = countries
     .map(country => {
       return `<li class = "country-item">
@@ -32,14 +48,25 @@ function renderCountries(countries) {
 }
 
 function renderCountry(country) {
+  countryList.innerHTML = '';
   const langs = Object.values(country[0].languages).join(', ');
   countryInfo.innerHTML = `<div class="title-country">
       <img src="${country[0].flags.svg}" alt="flag" />
       <h2>${country[0].name.official}</h2>
     </div>
     <ul class="country-info">
-      <li class="country-info-item">Capital: ${country[0].capital}</li>
-      <li class="country-info-item">Population: ${country[0].population}</li>
-      <li class="country-info-item">Languages: ${langs}</li>
+      <li class="country-info-item">Capital: <span>${country[0].capital}</span></li>
+      <li class="country-info-item">Population: <span>${country[0].population}</span></li>
+      <li class="country-info-item">Languages: <span>${langs}</span></li>
     </ul>`;
+}
+
+function clearData() {
+  countryList.innerHTML = '';
+  countryInfo.innerHTML = '';
+}
+
+function notFound() {
+  Notify.failure('Oops, there is no country with that name');
+  clearData();
 }

@@ -10,6 +10,9 @@ body {
   background-color: #fafafa;
   color: #212121;
   line-height: 1.5;
+
+  background-image: url(/src/img/background.jpg);
+  background-repeat: repeat;
 }
 
 #search-box {
@@ -21,12 +24,13 @@ body {
 
 img {
   display: block;
-  width: 5%;
-  height: 5%;
+  width: 6%;
+
   margin-right: 5px;
 }
 
-p {
+p,
+h2 {
   margin: 0;
 }
 
@@ -43,4 +47,19 @@ ol {
 .country-item {
   display: flex;
   align-items: center;
+  margin-bottom: 5px;
+}
+
+.title-country {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.country-info-item {
+  font-weight: 700;
+}
+
+.country-info-item > span {
+  font-weight: 400;
 }
